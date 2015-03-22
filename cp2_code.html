@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Clean dataset</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<p>dataset &lt;- read.csv(bzfile(&ldquo;repdata%2Fdata%2FStormData.csv.bz2&rdquo;))
+df &lt;- dataset[dataset$INJURIES!=0 | dataset$FATALITIES != 0 | dataset$PROPDMG != 0 | dataset$CROPDMG != 0, ]</p>
+
+<h2>Clean dataset</h2>
+
+<h2>Work with levels</h2>
+
+<p>levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;&rdquo;] &lt;- 0
+levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;?&rdquo;] &lt;- 0
+levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;0&rdquo;] &lt;- 1
+levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;2&rdquo;] &lt;- 100
+levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;B&rdquo;] &lt;- 10<sup>9</sup>
+levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;k&rdquo; | levels(df$CROPDMGEXP) == &ldquo;K&rdquo;] &lt;- 10<sup>3</sup>
+levels(df$CROPDMGEXP)[levels(df$CROPDMGEXP) == &ldquo;m&rdquo; | levels(df$CROPDMGEXP) == &ldquo;M&rdquo;] &lt;- 10<sup>6</sup></p>
+
+<p>levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;&rdquo; | levels(df$PROPDMGEXP) == &ldquo;?&rdquo;] &lt;- 0
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;+&rdquo; | levels(df$PROPDMGEXP) == &ldquo;-&rdquo;] &lt;- 0
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;1&rdquo;] &lt;- 10
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;0&rdquo;] &lt;- 1
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;2&rdquo; | levels(df$PROPDMGEXP) == &ldquo;h&rdquo; | levels(df$PROPDMGEXP) == &ldquo;H&rdquo;] &lt;- 100
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;3&rdquo; | levels(df$PROPDMGEXP) == &ldquo;k&rdquo; | levels(df$PROPDMGEXP) == &ldquo;K&rdquo;] &lt;- 1000
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;4&rdquo;] &lt;- 10<sup>4</sup>
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;5&rdquo;] &lt;- 10<sup>5</sup>
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;6&rdquo; | levels(df$PROPDMGEXP) == &ldquo;m&rdquo; | levels(df$PROPDMGEXP) == &ldquo;M&rdquo;] &lt;- 1000
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;7&rdquo;] &lt;- 10<sup>7</sup>
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;8&rdquo;] &lt;- 10<sup>8</sup>
+levels(df$PROPDMGEXP)[levels(df$PROPDMGEXP) == &ldquo;B&rdquo;] &lt;- 10<sup>9</sup></p>
+
+<p>df$CROPDMG_FIN &lt;- df$CROPDMG*as.numeric(levels(df$CROPDMGEXP))[df$CROPDMGEXP]
+df$PROPDMG_FIN &lt;- df$PROPDMG*as.numeric(levels(df$PROPDMGEXP))[df$PROPDMGEXP]</p>
+
+<h2>Find sum of fatalities and injures</h2>
+
+<p>dmg_hpop &lt;- aggregate(cbind(FATALITIES, INJURIES) ~ EVTYPE, df, FUN=sum)
+top10_fat&lt;-head(dmg_hpop[order(dmg_hpop$FATALITIES, decreasing = T),1:2], n=10)
+top10_inj&lt;-head(dmg_hpop[order(dmg_hpop$INJURIES, decreasing = T),c(1,3)], n=10)</p>
+
+<p>par(mfrow=c(1,2))
+barplot(top10_fat$FATALITIES, names=top10_fat$EVTYPE,las=2, col=&ldquo;red&rdquo;, 
+        main=&ldquo;Top 10 most dedliest weather events&rdquo;, cex.names=0.6)
+barplot(top10_inj$INJURIES, names=top10_inj$EVTYPE,las=2, col=&ldquo;red&rdquo;, 
+        main=&ldquo;Top 10 weather events for injures&rdquo;, cex.names=0.6)</p>
+
+<h2>Find economical impact of severe weather events</h2>
+
+<p>dmg_econ &lt;- aggregate(cbind(PROPDMG_FIN, CROPDMG_FIN, PROPDMG_FIN + CROPDMG_FIN) ~ EVTYPE, 
+                      df, FUN=sum)</p>
+
+<p>names(dmg_econ)[4] &lt;- &ldquo;TOTAL_DMG&rdquo;</p>
+
+<p>top10_total &lt;- head(dmg_econ[order(dmg_econ$TOTAL_DMG, decreasing=T), ], n=10)
+top10_prop &lt;- head(dmg_econ[order(dmg_econ$PROPDMG_FIN, decreasing=T), c(1,2)], n=10)
+top10_crop &lt;- head(dmg_econ[order(dmg_econ$CROPDMG_FIN, decreasing=T), c(1,3)], n=10)</p>
+
+<h3>Plot the results</h3>
+
+<p>par(mfrow=c(1,3))
+barplot(rbind(top10_total$PROPDMG_FIN, top10_total$CROPDMG_FIN), names=top10_total$EVTYPE, las=2, 
+        col=c(&ldquo;red&rdquo;,&ldquo;green&rdquo;), 
+        main=&ldquo;Top 10 severe weather events\n by their economical impact&rdquo;, cex.names=0.6)</p>
+
+<p>barplot(top10_prop$PROPDMG_FIN, names=top10_prop$EVTYPE, las=2, col=&ldquo;red&rdquo;, 
+        main=&ldquo;Top10 severe weather events by their \nimpact for damages on property&rdquo;, cex.names=0.6)</p>
+
+<p>barplot(top10_crop$CROPDMG_FIN, names=top10_crop$EVTYPE, las=2, col=&ldquo;green&rdquo;, 
+        main=&ldquo;Top10 severe weather events by their \nimpact for damages on crops&rdquo;, cex.names=0.6)</p>
+
+</body>
+
+</html>

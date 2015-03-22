@@ -1,5 +1,5 @@
 ---
-title: "Tornados and Floods are most dangerous weathere events by their impact on public health and economy"
+title: "Tornados and Floods are most dangerous weather events by their impact on public health and economy"
 author: "Yevgeny V.Yorkhov"
 date: "03/22/2015"
 output: html_document
@@ -82,7 +82,7 @@ In order to answer this question we need to aggregate fatalities and injuries by
 
 
 ```r
-## Find sum of fatalities and injures 
+## Find sum of fatalities and injuries 
 dmg_hpop <- aggregate(cbind(FATALITIES, INJURIES) ~ EVTYPE, df, FUN=sum)
 top10_fat<-head(dmg_hpop[order(dmg_hpop$FATALITIES, decreasing = T),1:2], n=10)
 top10_inj<-head(dmg_hpop[order(dmg_hpop$INJURIES, decreasing = T),c(1,3)], n=10)
@@ -108,7 +108,7 @@ top10_fat
 ## 7        AVALANCHE        224
 ```
 
-Top 10 weather events that result huge injures
+Top 10 weather events that result huge injuries
 
 ```r
 top10_inj
@@ -142,7 +142,7 @@ par(mfrow=c(2,2))
 barplot(top10_fat$FATALITIES, names=top10_fat$EVTYPE,las=2, col="red", 
         main="Top 10 most dedliest\n weather events", cex.names=0.6)
 barplot(top10_inj$INJURIES, names=top10_inj$EVTYPE,las=2, col="red", 
-        main="Top 10 weather events\n for injures", cex.names=0.6)
+        main="Top 10 weather events\n for injuries", cex.names=0.6)
 barplot(torn_fat, col=c("red", "black"), main="Tornado vs other weather \n events fatalities")
 barplot(torn_inj, col=c("red", "black"), main="Tornado vs other weather \n events injuries")
 ```
@@ -248,7 +248,7 @@ names(crop_dmg) <- c("Droughts", "Floods", "Others")
 
 
 ### Plot the results
-par(mfrow=c(1,3))
+par(mfrow=c(2,3))
 barplot(rbind(top10_total$PROPDMG_FIN, top10_total$CROPDMG_FIN), names=top10_total$EVTYPE, las=2, 
         col=c("red","green"), 
         main="Top 10 severe weather events\n by their economical impact", cex.names=0.6)
@@ -258,16 +258,10 @@ barplot(top10_prop$PROPDMG_FIN, names=top10_prop$EVTYPE, las=2, col="red",
 
 barplot(top10_crop$CROPDMG_FIN, names=top10_crop$EVTYPE, las=2, col="green", 
         main="Top10 severe weather events by their \nimpact for damages on crops", cex.names=0.6)
-```
-
-![plot of chunk plot_economy_impact](figure/plot_economy_impact-1.png) 
-
-```r
-par(mfrow=c(1,3))
 barplot(total_dmg, col=c("blue", "black"), main="Flood vs other weather \n events by total economical damage")
 barplot(prop_dmg, col=c("blue", "black"), main="Flood vs other weather \n events by property damage")
 barplot(crop_dmg, col=c("bisque", "blue", "black"), main="Drought and Floods vs other weather \n
         events by crops damage", las=2)
 ```
 
-![plot of chunk plot_economy_impact](figure/plot_economy_impact-2.png) 
+![plot of chunk plot_economy_impact](figure/plot_economy_impact-1.png) 
